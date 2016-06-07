@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - @CodeLib.CommonObjects.COMPANY_NAME</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink(@CodeLib.CommonObjects.COMPANY_NAME, "Index", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <!--<li>@Html.ActionLink("Home", "Index", "Home")</li>-->
+                    <li>@Html.ActionLink("Built-in Features", "About", "Home")</li>
+                    <li>@Html.ActionLink("Support", "Support", "Home")</li>
+
+                    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>Copyright &copy; @DateTime.Now.Year @CodeLib.CommonObjects.COMPANY_NAME</p>
+        </footer>
+    </div>
+
+    <!-- Some old browsers don't jive with this site. Reference: http://www.browser-update.org/ -->
+    <script type="text/javascript">
+        var $buoop = { vs: { i: 8, f: 10, o: 12, s: 4.1 } };
+        $buoop.ol = window.onload;
+        window.onload = function () {
+            try { if ($buoop.ol) $buoop.ol(); } catch (e) { }
+            var e = document.createElement("script");
+            e.setAttribute("type", "text/javascript");
+            e.setAttribute("src", "//browser-update.org/update.js");
+            document.body.appendChild(e);
+        }
+    </script>
+</body>
+</html>

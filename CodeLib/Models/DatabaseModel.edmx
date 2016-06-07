@@ -1,0 +1,674 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AppUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RegistrationDate" Type="datetime" Nullable="false" />
+          <Property Name="ChangeUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ChangeDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LogTypeId" Type="int" Nullable="false" />
+          <Property Name="Descr" Type="nvarchar(max)" />
+          <Property Name="URL" Type="nvarchar(max)" />
+          <Property Name="Page" Type="nvarchar(max)" />
+          <Property Name="LinkToId" Type="nvarchar" MaxLength="128" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lookup">
+          <Key>
+            <PropertyRef Name="LookupId" />
+          </Key>
+          <Property Name="LookupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LookupTypeId" Type="int" Nullable="false" />
+          <Property Name="Descr" Type="varchar(max)" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="150" />
+          <Property Name="Sequence" Type="int" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LookupType">
+          <Key>
+            <PropertyRef Name="LookupTypeId" />
+          </Key>
+          <Property Name="LookupTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descr" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AppUser_StatusId">
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+          <End Role="AppUser" Type="Self.AppUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="LookupId" />
+            </Principal>
+            <Dependent Role="AppUser">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppUser_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="AppUser" Type="Self.AppUser" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AppUser">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1" />
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUserRoles_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_LogType">
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+          <End Role="Log" Type="Self.Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="LookupId" />
+            </Principal>
+            <Dependent Role="Log">
+              <PropertyRef Name="LogTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lookup_LookupType">
+          <End Role="LookupType" Type="Self.LookupType" Multiplicity="1" />
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupType">
+              <PropertyRef Name="LookupTypeId" />
+            </Principal>
+            <Dependent Role="Lookup">
+              <PropertyRef Name="LookupTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AppUser_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="StatusId" Type="int" Mode="In" />
+          <Parameter Name="UserRoleId" Type="int" Mode="In" />
+          <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
+          <Parameter Name="LastName" Type="nvarchar" Mode="In" />
+          <Parameter Name="Email" Type="nvarchar" Mode="In" />
+          <Parameter Name="ChangeUserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AspNetRoles_InsertUpdateDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Delete" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="AspNetUser_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="EmailConfirmed" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="GetQueryData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QueryDataTypeId" Type="int" Mode="In" />
+          <Parameter Name="Filter" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Log_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="LogTypeId" Type="int" Mode="In" />
+          <Parameter Name="Descr" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="URL" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Page" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="LinkToId" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="DatabaseModelStoreContainer">
+          <EntitySet Name="AppUser" EntityType="Self.AppUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lookup" EntityType="Self.Lookup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LookupType" EntityType="Self.LookupType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AppUser_StatusId" Association="Self.FK_AppUser_StatusId">
+            <End Role="Lookup" EntitySet="Lookup" />
+            <End Role="AppUser" EntitySet="AppUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppUser_UserId" Association="Self.FK_AppUser_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AppUser" EntitySet="AppUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserRoles_RoleId" Association="Self.FK_AspNetUserRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserRoles_UserId" Association="Self.FK_AspNetUserRoles_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_LogType" Association="Self.FK_Log_LogType">
+            <End Role="Lookup" EntitySet="Lookup" />
+            <End Role="Log" EntitySet="Log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lookup_LookupType" Association="Self.FK_Lookup_LookupType">
+            <End Role="LookupType" EntitySet="LookupType" />
+            <End Role="Lookup" EntitySet="Lookup" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AppUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RegistrationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ChangeUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ChangeDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Lookup" Relationship="Self.FK_AppUser_StatusId" FromRole="AppUser" ToRole="Lookup" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_AppUser_UserId" FromRole="AppUser" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AppUser" Relationship="Self.FK_AppUser_UserId" FromRole="AspNetUsers" ToRole="AppUser" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LogTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Page" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LinkToId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Lookup" Relationship="Self.FK_Log_LogType" FromRole="Log" ToRole="Lookup" />
+        </EntityType>
+        <EntityType Name="Lookup">
+          <Key>
+            <PropertyRef Name="LookupId" />
+          </Key>
+          <Property Name="LookupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LookupTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Sequence" Type="Int32" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AppUser" Relationship="Self.FK_AppUser_StatusId" FromRole="Lookup" ToRole="AppUser" />
+          <NavigationProperty Name="Log" Relationship="Self.FK_Log_LogType" FromRole="Lookup" ToRole="Log" />
+          <NavigationProperty Name="LookupType" Relationship="Self.FK_Lookup_LookupType" FromRole="Lookup" ToRole="LookupType" />
+        </EntityType>
+        <EntityType Name="LookupType">
+          <Key>
+            <PropertyRef Name="LookupTypeId" />
+          </Key>
+          <Property Name="LookupTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Lookup" Relationship="Self.FK_Lookup_LookupType" FromRole="LookupType" ToRole="Lookup" />
+        </EntityType>
+        <Association Name="FK_AppUser_StatusId">
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+          <End Role="AppUser" Type="Self.AppUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="LookupId" />
+            </Principal>
+            <Dependent Role="AppUser">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppUser_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="AppUser" Type="Self.AppUser" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AppUser">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_LogType">
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="1" />
+          <End Role="Log" Type="Self.Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lookup">
+              <PropertyRef Name="LookupId" />
+            </Principal>
+            <Dependent Role="Log">
+              <PropertyRef Name="LogTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lookup_LookupType">
+          <End Role="LookupType" Type="Self.LookupType" Multiplicity="1" />
+          <End Role="Lookup" Type="Self.Lookup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupType">
+              <PropertyRef Name="LookupTypeId" />
+            </Principal>
+            <Dependent Role="Lookup">
+              <PropertyRef Name="LookupTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AppUser" EntityType="Self.AppUser" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+          <EntitySet Name="Log" EntityType="Self.Log" />
+          <EntitySet Name="Lookup" EntityType="Self.Lookup" />
+          <EntitySet Name="LookupType" EntityType="Self.LookupType" />
+          <AssociationSet Name="FK_AppUser_StatusId" Association="Self.FK_AppUser_StatusId">
+            <End Role="Lookup" EntitySet="Lookup" />
+            <End Role="AppUser" EntitySet="AppUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppUser_UserId" Association="Self.FK_AppUser_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AppUser" EntitySet="AppUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_LogType" Association="Self.FK_Log_LogType">
+            <End Role="Lookup" EntitySet="Lookup" />
+            <End Role="Log" EntitySet="Log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lookup_LookupType" Association="Self.FK_Lookup_LookupType">
+            <End Role="LookupType" EntitySet="LookupType" />
+            <End Role="Lookup" EntitySet="Lookup" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <FunctionImport Name="AppUser_InsertUpdate" ReturnType="Collection(Int32)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="StatusId" Mode="In" Type="Int32" />
+            <Parameter Name="UserRoleId" Mode="In" Type="Int32" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="ChangeUserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AspNetRoles_InsertUpdateDelete" ReturnType="Collection(Int32)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Delete" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="AspNetUser_Update" ReturnType="Collection(Int32)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="EmailConfirmed" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="GetQueryData" ReturnType="Collection(DatabaseModel.GetQueryData_Result)">
+            <Parameter Name="QueryDataTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="Filter" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Log_Insert" ReturnType="Collection(Decimal)">
+            <Parameter Name="LogTypeId" Mode="In" Type="Int32" />
+            <Parameter Name="Descr" Mode="In" Type="String" />
+            <Parameter Name="URL" Mode="In" Type="String" />
+            <Parameter Name="Page" Mode="In" Type="String" />
+            <Parameter Name="LinkToId" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="GetQueryData_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="256" />
+          <Property Type="String" Name="Description" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DatabaseModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="AppUser">
+            <EntityTypeMapping TypeName="DatabaseModel.AppUser">
+              <MappingFragment StoreEntitySet="AppUser">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="ChangeUserId" ColumnName="ChangeUserId" />
+                <ScalarProperty Name="ChangeDate" ColumnName="ChangeDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="DatabaseModel.AspNetRoles">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="DatabaseModel.AspNetUserClaims">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="DatabaseModel.AspNetUserLogins">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="DatabaseModel.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log">
+            <EntityTypeMapping TypeName="DatabaseModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="LogId" ColumnName="LogId" />
+                <ScalarProperty Name="LogTypeId" ColumnName="LogTypeId" />
+                <ScalarProperty Name="Descr" ColumnName="Descr" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="Page" ColumnName="Page" />
+                <ScalarProperty Name="LinkToId" ColumnName="LinkToId" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lookup">
+            <EntityTypeMapping TypeName="DatabaseModel.Lookup">
+              <MappingFragment StoreEntitySet="Lookup">
+                <ScalarProperty Name="LookupId" ColumnName="LookupId" />
+                <ScalarProperty Name="LookupTypeId" ColumnName="LookupTypeId" />
+                <ScalarProperty Name="Descr" ColumnName="Descr" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LookupType">
+            <EntityTypeMapping TypeName="DatabaseModel.LookupType">
+              <MappingFragment StoreEntitySet="LookupType">
+                <ScalarProperty Name="LookupTypeId" ColumnName="LookupTypeId" />
+                <ScalarProperty Name="Descr" ColumnName="Descr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="DatabaseModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="AppUser_InsertUpdate" FunctionName="DatabaseModel.Store.AppUser_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="AspNetRoles_InsertUpdateDelete" FunctionName="DatabaseModel.Store.AspNetRoles_InsertUpdateDelete" />
+          <FunctionImportMapping FunctionImportName="AspNetUser_Update" FunctionName="DatabaseModel.Store.AspNetUser_Update" />
+          <FunctionImportMapping FunctionImportName="GetQueryData" FunctionName="DatabaseModel.Store.GetQueryData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DatabaseModel.GetQueryData_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Log_Insert" FunctionName="DatabaseModel.Store.Log_Insert" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

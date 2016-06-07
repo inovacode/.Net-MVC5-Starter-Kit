@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F4131505-D86C-4950-86EB-782F02384B3C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeLib</RootNamespace>
+    <AssemblyName>CodeLib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data">
+      <HintPath>..\Dependencies\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.1.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\CommonObjects.cs" />
+    <Compile Include="Common\Email\EmailInfo.cs" />
+    <Compile Include="Common\Email\EmailSender.cs" />
+    <Compile Include="Common\Email\EmailTemplate.cs" />
+    <Compile Include="Common\SiteUtils.cs" />
+    <Compile Include="DAL\AdminDAL.cs" />
+    <Compile Include="DAL\CommonDAL.cs" />
+    <Compile Include="DAL\SqlDataHelper.cs" />
+    <Compile Include="DAL\UserDAL.cs" />
+    <Compile Include="Models\AppUser.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetRoles.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaims.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogins.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DatabaseModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DatabaseModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DatabaseModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DatabaseModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DatabaseModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DatabaseModelExtended.cs" />
+    <Compile Include="Models\GetQueryData_Result.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Log.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Lookup.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LookupType.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EntityDeploy Include="Models\DatabaseModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DatabaseModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Models\DatabaseModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DatabaseModel.edmx</DependentUpon>
+      <LastGenOutput>DatabaseModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Models\DatabaseModel.edmx.diagram">
+      <DependentUpon>DatabaseModel.edmx</DependentUpon>
+    </None>
+    <None Include="Models\DatabaseModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DatabaseModel.edmx</DependentUpon>
+      <LastGenOutput>DatabaseModel.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

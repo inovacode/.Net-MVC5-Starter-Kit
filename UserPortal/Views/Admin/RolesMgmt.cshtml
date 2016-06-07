@@ -1,0 +1,50 @@
+﻿@model IEnumerable<CodeLib.ApplicationRole>
+
+@{
+    ViewBag.Title = "Manage User Roles";
+}
+
+<h2 style="float:left;">@ViewBag.Title</h2>
+<p style="float:left; margin:25px 0 0 40px;">
+    @Html.ActionLink("Create New Role", "RoleCreate")
+</p>
+<div class="clear"></div>
+
+<table class="table" style="margin-top:25px;">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
+
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "RoleDetails", new { id = item.Id })
+
+                    @if (item.Id > 2) // Can't delete/edit system roles
+                    {
+                        <span>&nbsp; | &nbsp;</span>
+                        @Html.ActionLink("Edit", "RoleEdit", new { id = item.Id }) <span>&nbsp; | &nbsp;</span>
+                        @Html.ActionLink("Delete", "RoleDelete", new { id = item.Id })
+                    }
+                </td>
+            </tr>
+        }
+    }
+</table>

@@ -1,0 +1,57 @@
+﻿@model UserPortal.Models.UpdateProfileViewModel
+@{
+    ViewBag.Title = "Update Profile";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("UpdateProfile", "Manage", FormMethod.Post, new { id = "profileForm", @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    if (Model.UserId > 0)
+    {
+        @Html.HiddenFor(model => model.UserId)
+    }
+
+    <div class="form-group" style="margin-top:20px;">
+        @Html.LabelFor(m => m.UserId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.ValueFor(m => m.UserId)
+        </div>
+    </div>
+    <div class="form-group" style="margin-top:20px;">
+        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10" style="margin-top:10px;">
+            <input id="btnSubmit" type="submit" class="btn btn-default" value="Update" /> &nbsp; or
+            @Html.ActionLink("Cancel", "Index")
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@Html.Raw(CodeLib.SiteUtils.GetLoadingIndicatorHtml(new List<KeyValuePair<string, string>>
+{
+    new KeyValuePair<string, string> ("profileForm", "btnSubmit")
+}))

@@ -1,0 +1,75 @@
+﻿@model UserPortal.Models.UserViewModel
+
+<h2>@ViewBag.Title</h2>
+@using (Html.BeginForm("UserMgmt", "Admin", FormMethod.Post, new { id = "formUserMgmt", @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    if (Model.UserId > 0)
+    {
+        @Html.HiddenFor(model => model.UserId)
+    }
+
+    <div class="form-group" style="margin-top:20px;">
+        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    if (Model.UserId <= 0)
+    { 
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+        </div>
+    }
+    <div class="form-group">
+        @Html.LabelFor(m => m.StatusId, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.StatusId, Model.StatusList, new { @style = "width:100%" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10" style="margin-top:10px;">
+            <input id="btnSubmit" type="submit" class="btn btn-default" value="@ViewBag.ButtonText" /> &nbsp; or
+            @Html.ActionLink("Cancel", "UsersMgmt")
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10" style="margin-top:10px;">
+            @if (Model.UserId <= 0)
+            {
+                <div>*New users receive a registration email.</div>
+            }
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@Html.Raw(CodeLib.SiteUtils.GetLoadingIndicatorHtml(new List<KeyValuePair<string, string>>
+{
+    new KeyValuePair<string, string>("formUserMgmt", "btnSubmit")
+}))
